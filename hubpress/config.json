@@ -4,7 +4,12 @@
     "repositoryName": "nooganeer",
     "branch": "gh-pages"
   },
+  "site": {
+    "title": "Nooganeer",
+    "description": "An engineer in Chattanooga"
+  },
+  "socialnetwork": {},
   "theme": {
-    "name": "Casper"
+    "name": "casper"
   }
 }
