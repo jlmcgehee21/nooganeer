@@ -8,7 +8,11 @@
     "title": "Nooganeer",
     "description": "An engineer in Chattanooga"
   },
-  "socialnetwork": {},
+  "socialnetwork": {
+    "email": "jlmcgehee21@gmail.com",
+    "twitter": "@jeffemc2",
+    "github": "jlmcgehee21"
+  },
   "theme": {
     "name": "casper"
   }
