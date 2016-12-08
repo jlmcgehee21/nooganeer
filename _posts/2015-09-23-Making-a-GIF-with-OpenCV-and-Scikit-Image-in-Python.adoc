@@ -1,0 +1,82 @@
+= Making a GIF with OpenCV and Scikit-Image in Python
+:published_at: 2015-09-23
+
+http://www.nooganeer.com/his/wp-content/uploads/2015/09/animation.gif[image:http://www.nooganeer.com/his/wp-content/uploads/2015/09/animation.gif[animation,width=800,height=600]]
+
+I recently purchased a 1984 BMW 318i.  I like to spend time working on the car, and as you can see from the rest of my blog, I like to do cool things with computers.  So, I decided to document my latest project -- the relatively simple "https://www.youtube.com/watch?v=_yTWJCECZNE[bumper tuck]" -- with a cool GIF (seen above).
+
+My wife had our nice DSLR with her on vacation with her family, so all of my photos were taken with an iPhone 4 clamped to a deck railing.  This yielded some interesting problems with the series of images that I would have to deal with:
+
+* Inconsistent exposure/brightness
+* Inconsistent white balance
+* Slow creep of camera placement
+* No optical zoom / poor framing of the image
+* Weird upside down images
+
+[[making-a-gif]]
+Making A GIF:
+~~~~~~~~~~~~~
+
+This is the really easy part actually.  Taking advantage of OpenCV and Matplotlib, these two simple functions will handle it all very nicely:
+
+[source,theme:github,lang:default,decode:true]
+----
+import matplotlib.pyplot as plt import matplotlib.animation as animationimport cv2def load_all_images(dir):    imgs = []    for file_name in os.listdir(dir):        if os.path.splitext(file_name)[-1] == '.JPG':        # Remember that I had to flip the iPhone image, also the image was in BGR colorspace so I had to convert to RGB        img = cv2.cvtColor(cv2.imread(os.path.join(dir, file_name)), cv2.COLOR_BGR2RGB)[::-1, ::-1, :]        imgs.append(img)    return imgsdef build_gif(imgs, show_gif=True, save_gif=True, title=''):    fig = plt.figure()    ax = fig.add_subplot(111)    ax.set_axis_off()    ims = map(lambda x: (ax.imshow(x), ax.set_title(title)), imgs)    im_ani = animation.ArtistAnimation(fig, ims, interval=800, repeat_delay=0, blit=False)    if save_gif:        im_ani.save('animation.gif', writer='imagemagick')    if show_gif:        plt.show()    return
+----
+
+ 
+
+[[initial-results]]
+Initial Results
+~~~~~~~~~~~~~~~
+
+And with an iPhone 4 and some simple python, this is what I got:
+
+http://www.nooganeer.com/his/wp-content/uploads/2015/09/animation_unadjusted.gif[image:http://www.nooganeer.com/his/wp-content/uploads/2015/09/animation_unadjusted.gif[animation_unadjusted,width=800,height=600]]
+
+I didn't show it in my code above, but I also cropped the images in Python.  This is very easy since OpenCV loads the images as Numpy arrays, so all you have to do is slice the array with normal Numpy slicing.  The results aren't bad, but the images have widely varying levels of brightness and they are mis-aligned.
+
+[[image-correction]]
+Image Correction:
+~~~~~~~~~~~~~~~~~
+
+I used Scikit-Image to calculate translation vectors from each image back to the original, using the upper left corner of the images (which captured the static edge of my carport roof). I then used these vectors to make custom cropping slices for each image.
+
+[source,theme:github,lang:default,decode:true]
+----
+from skimage import featuredef find_translations(imgs):    translations = []    orig_img = imgs[0]    for img in imgs:        translation = feature.register_translation(img, orig_img)        translations.append(translation[0])        return translations
+----
+
+ 
+
+To visualize the effectiveness of the alignment, I made the following images which consist of an average of the binarization of each image (cropped around the grille of the car). The scatter points are features detected by scikit-image . Points that are the same color came from the same image.
+
+http://www.nooganeer.com/his/wp-content/uploads/2015/09/Test.jpg[image:http://www.nooganeer.com/his/wp-content/uploads/2015/09/Test.jpg[Test,width=800,height=600]]
+
+To adjust the overall brightness of the images, I applied the following fairly crude function to “align” the brightness of the images. The only clever thing I did here was switch to L*a*b* color space.
+
+[source,theme:github,lang:python,decode:true]
+----
+def adjust_brightness(imgs):    imgs = map(lambda x: cv2.cvtColor(x, cv2.COLOR_RGB2LAB), imgs)    avg_brightnesses = map(lambda x: np.mean(x[:, :, 0]), imgs)    targ = max(avg_brightnesses)    new_imgs = []    for img in imgs:        img = img.astype(int)        while np.mean(img[:, :, 0]) < targ:            img[:, :, 0] += 2        img = np.clip(img, 0, 255)        img = cv2.cvtColor(img.astype('uint8'), cv2.COLOR_LAB2RGB)        new_imgs.append(img.astype('uint8'))    return new_imgs
+----
+
+Next, the portion of the images that show the car are fairly dark with low contrast. To combat this I performedhttps://en.wikipedia.org/wiki/Adaptive_histogram_equalization#Contrast_Limited_AHE[Contrast Limited Histogram Equalization]on the L layer of the L*a*b* image via
+
+the function in OpenCV. This was fairly easy to implement in python:
+
+[source,theme:github,lang:default,decode:true]
+----
+def clahe(imgs):    clahe_obj = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(12, 12))    imgs = map(lambda x: cv2.cvtColor(x, cv2.COLOR_RGB2LAB), imgs)    imgs = map(lambda x: np.dstack((clahe_obj.apply(x[:, :, 0]), x[:, :, 1:])), imgs)    return map(lambda x: cv2.cvtColor(x, cv2.COLOR_LAB2RGB), imgs)
+----
+
+[[final-result]]
+Final Result
+~~~~~~~~~~~~
+
+After alignment and illumination fixes, I think the animation is much better.
+
+http://www.nooganeer.com/his/wp-content/uploads/2015/09/animation.gif[image:http://www.nooganeer.com/his/wp-content/uploads/2015/09/animation.gif[animation,width=800,height=600]]
+
+And the original again for reference...
+
+http://www.nooganeer.com/his/wp-content/uploads/2015/09/animation_unadjusted.gif[image:http://www.nooganeer.com/his/wp-content/uploads/2015/09/animation_unadjusted.gif[animation_unadjusted,width=800,height=600]]

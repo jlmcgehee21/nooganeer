@@ -1,0 +1,10 @@
+= Machine Learning Overview Presentation
+:published_at: 2015-08-19
+
+http://jeff_mcgehee.bitbucket.org/ML_Overview_Slides/#/[image:http://www.nooganeer.com/his/wp-content/uploads/2015/08/Screen-Shot-2015-08-19-at-7.30.56-PM.png[image]]
+
+This is a living post of my machine learning overview presentation. It is a birds-eye view of how to approach problems from a machine learning perspective.
+
+The presentation is written in https://github.com/hakimel/reveal.js/[reveal.js]
+
+

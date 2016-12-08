@@ -1,0 +1,10 @@
+= OMSCS Machine Learning Project 4
+:published_at: 2015-05-09
+
+http://www.nooganeer.com/his/wp-content/uploads/2015/05/Project-4-Report-Google-Docs.pdf[image:http://www.nooganeer.com/his/wp-content/uploads/2015/05/Screen-Shot-2015-05-08-at-11.55.43-PM.png[Screen Shot 2015-05-08 at 11.55.43 PM,width=1728,height=1548]]
+
+My final project for OMSCS 7641 Machine Learning! I'm excited to be done with the course, but I'm also excited about all of the awesome things I learned. This last project has some implications that reach further than just greater academic understanding. For this project, we were tasked with building and solving a Reinforcement Learning problem. The natural choice for me was my http://www.nooganeer.com/his/projects/homeautomation/raspberry-pi-thermostat-part-1-overview/[Raspberry Pi Thermostat]!
+
+After a ton of work and help from my new friend https://github.com/mjs2600[Michael Simpson], we were able to build a simulation in which a thermostat agent learned to be more efficient.  Of course, this was just a simulation, but the results were quite fantastic, and I'm hoping to get this learning functionality into the real-world thermostat this summer!
+
+http://www.nooganeer.com/his/wp-content/uploads/2015/05/Project-4-Report-Google-Docs.pdf[Check out the paper!]

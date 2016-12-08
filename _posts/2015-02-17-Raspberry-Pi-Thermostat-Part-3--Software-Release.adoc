@@ -1,0 +1,41 @@
+= Raspberry Pi Thermostat Part 3: Software Release
+:published_at: 2015-02-17
+
+https://bitbucket.org/jeff_mcgehee[image:http://www.nooganeer.com/his/wp-content/uploads/2015/02/Screen-Shot-2015-02-17-at-9.59.16-PM.png[Screen Shot 2015-02-17 at 9.59.16 PM,width=1442,height=932]]
+
+I’ve finally found the time to release my software.  However... I am extraordinarily http://www.nooganeer.com/his/projects/omscs-machine-learning-project-1/[busy] with http://http://www.omscs.gatech.edu/[Georgia Tech's OMSCS] program, so I will not have time for now to write a tutorial on using the source code.  This is my very first web development project.  Since its inception I have already learned enough to know that there are some things that could be done better--it is my goal to improve the code as I have time.
+
+If you are an experienced web developer, you will most likely laugh at what you see.  Rather than be hateful, please feel free to fork the repo, make my idea better, and submit a pull request.
+
+Whether you are a web developer or not, rest assured that this code base has been running my thermostat for 3 months at the date of this post with exactly zero failures.
+
+[[section]]
+
+[[software-overview]]
+SOFTWARE OVERVIEW
+^^^^^^^^^^^^^^^^^
+
+To begin, the software consists of four major components which will run on 3 separate pieces of http://www.nooganeer.com/his/projects/homeautomation/raspberry-pi-thermostat-part-2-hardware-overview/[hardware].
+
+* MySQL Database — Runs on the web server but could run on separate machine
++
+** The whole system is driven by the database, which should make it easy to expand control methods beyond just the web application.
+** Contains sensor data and HVAC status logs
+* https://bitbucket.org/jeff_mcgehee/raspberryparadeflask[Flask Web App] — Runs on web server
++
+** Displays statuses and plots data from database
+** Allows user to manipulate the state of the thermostat
+** Contains url scheme to add sensor data to the MySQL database when GET request is received from a Spark Core
+* https://bitbucket.org/jeff_mcgehee/raspberryparadepi[Thermostat Control Daemon] — Runs on Raspberry Pi
++
+** Controls the HVAC system itself and updates the system status on the MySQL database
+** Also acts as a temperature sensor and inserts data into the database
+* https://bitbucket.org/jeff_mcgehee/raspberryparadespark[Remote Sensor Daemon] — Runs on Spark Core
++
+** Reads data from DALLAS TEMP SENSOR, and sends a GET request containing the sensor ID and temperature reading to the Flask app.
+
+Eventually, I will create posts for how to set up each piece of hardware, but for now, you're stuck with the README files in the https://bitbucket.org/jeff_mcgehee[Bitbucket repos].
+
+Feel free to contact me with any troubles you have and I will try to assist you. Eventually I may have some real issue tracking set up.
+
+

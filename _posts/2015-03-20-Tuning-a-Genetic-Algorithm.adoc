@@ -1,0 +1,110 @@
+= Tuning a Genetic Algorithm
+:published_at: 2015-03-20
+
+http://www.nooganeer.com/his/wp-content/uploads/2015/03/GA11.gif[image:http://www.nooganeer.com/his/wp-content/uploads/2015/03/GA11.gif[GA11,width=800,height=600]]
+
+A genetic algorithm (GA) is a randomized optimization method designed to mimic biological evolution.
+
+There exist many different variations of GAs.  If you choose to use a GA to solve a serious optimization problem of your own, you may create a variation to suit your specific needs.  However, in this post, I am going to focus on a very standard version of the GA and show how you can tune it to perform well on a specific problem.
+
+The steps of the basic algorithm are as follows:
+
+1.  Generate an initial population of N individuals (candidate solutions)--This can be done randomly, or based on some domain knowledge.
+2.  Evaluate the fitness of each member of the population
+3.  Create new population of N members for next generation
++
+* Keep some percentage of the top performers (elite percent)
+* Generate remainder of N members by combining (crossover) and/or mutating the top performers
+* Return to 2.
+
+So, looking at the steps above, we can modify the following parameters-- *N, elite percent, crossover points, and mutation probability.*
+
+[[problem]]
+Problem
+^^^^^^^
+
+Now that we know how we can modify the algorithm, let's say you have a fitness function that looks like this:
+
+https://plot.ly/~jlmcgehee21/457
+
+Your optimization candidates are 16-bit bit strings that are split into two 8-bit integer values to make (x,y) tuples, and the fitnesses of those candidates are the corresponding z values from the graph.  **Though it is not computationally expensive to calculate the fitnesses for this problem, often times in engineering (my background),  fitness functions can take minutes, or even hours to evaluate**. Think of optimizing a http://www.nooganeer.com/his/projects/finite-element-analysis-bikes/[finite element model], or a http://www.nooganeer.com/his/projects/hybrid-vehicle-optimization/[full vehicle simulation].  Luckily, almost all optimization algorithms I can think of, allow for parallel computation of fitness functions, though in the end, this can still be the most expensive portion of the optimization process.
+
+For this reason, we will define our goal of tuning the GA as follows:  **Given a set number of fitness evaluations, 500, how should we tune the GA parameters to allow it to find the global optimum?**
+
+While tuning, I will run 50 simulations with a specific setup, and use these number to judge performance.
+
+For 500 fitness evaluations,  there are 3 simple scenarios one may consider: N = 5, N = 10, and N = 20.  For this example, I will stick with N = 10, resulting in 50 iterations.  In general, a rule of thumb is to use larger N for larger optimization domains.  I will keep my choice of N constant to highlight the other parameters of the algorithm.
+
+NOTE: I am assuming that we will calculate the fitness of each population member every iteration, this is a very simple method to implement.  It is possible with GA and other random optimization algorithms to "remember" members that have been evaluated in the past, and not re-evaluate them again.  This can cut down on total fitness evaluations.
+
+[[choosing-elite-percent]]
+Choosing Elite Percent:
+^^^^^^^^^^^^^^^^^^^^^^^
+
+To begin, I will set all other values to their minimum (Crossover Points = 1,  Mutation Probability = 0) and try to make some since of the behavior of Elite Percent.
+
+The elite percent is simply the percentage of top performers that you pass on to the next generation.  Setting this value to 0% will trivially reproduce true randomized optimization (because each generation must be randomly generated since there are no parents moving on).  Setting this value to 100% will again be useless, since it will mean that we will retain the initial population forever.  So, let's see what happens if we retain the top 10%, it must be good to only keep the best of the best:
+
+This yielded an avg. fitness 0f *0.45* with a standard deviation of **0.17**.  It can be seen that the population very quickly converges to the top performer.
+
+http://www.nooganeer.com/his/wp-content/uploads/2015/03/GA3.gif[image:http://www.nooganeer.com/his/wp-content/uploads/2015/03/GA3.gif[GA3,width=800,height=600]]
+
+Now, on the opposite end, we'll retain the top 90% of the population.  The results are similar, with an avg. fitness of **0.46 **and standard deviation of **0.20**.  But when we view the simulation, it can be seen that the population converges to the top members much slower.  The few random points seen at the end are the result of crossover.
+
+http://www.nooganeer.com/his/wp-content/uploads/2015/03/GA4.gif[image:http://www.nooganeer.com/his/wp-content/uploads/2015/03/GA4.gif[GA4,width=800,height=600]]
+
+ 
+
+What we have learned from here, is the more points we retain, the more randomness we leave in the algorithm.  This can be good, but remember, the GA should outperform simple randomized optimization.
+
+[[choosing-mutation-probability]]
+Choosing Mutation Probability
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Mutation Probability is the probability that a prospective member of the next generation will be a "mutant"  this means that it will have characteristics that could not be generated by standard crossover between its two parents.  To isolate the effects of mutation, we will set Elite Percent to 10% for this test, and we will let Crossover Points remain at 1.
+
+Similar to the previous test, we will begin setting Mutation Probability to 0.1.  The simulation yields an avg. best fitness of **0.64** with a standard deviation of **0.18.  **We can see here that though the GA scores poorly overall, it is exhibiting some positive behavior.  Rather than quickly converging the entire population to the top population member (as in the 10% Elite Percent simulation above), it is still searching for a better solution.
+
+http://www.nooganeer.com/his/wp-content/uploads/2015/03/GA52.gif[image:http://www.nooganeer.com/his/wp-content/uploads/2015/03/GA52.gif[GA5,width=800,height=600]]
+
+Now, if we leave the other variables the same, and change Mutation Probability to 0.9, we get the following results. Average fitness is **0.82** with a standard deviation of **0.11**.  Randomization __is__ good!  However, as can be seen below, when mutation occurs 90% of the time we have nearly a true version of randomized optimization.  This works well for this small domain, but can be very ineffective on larger optimization domains.
+
+http://www.nooganeer.com/his/wp-content/uploads/2015/03/GA6.gif[image:http://www.nooganeer.com/his/wp-content/uploads/2015/03/GA6.gif[GA6,width=800,height=600]]
+
+ 
+
+So we have learned here how Mutation Probability introduces randomness to the algorithm,  now we will see how Crossover affects performance.
+
+[[crossover-points]]
+Crossover Points
+^^^^^^^^^^^^^^^^
+
+In order for crossover to take place, we must first have some parents to combine, so for these tests we will set Elite Percent to 50%, and we will leave Mutation Probability at 0 to highlight the effects of Crossover Points.  Recall that the problem is set up with a 16-bit bit string, for this simple GA implementation,  1 Crossover Point places a point for crossover in the middle of the bit-string, making a child that is half one parent, half the other.  2 Crossover Points means the child will be divided into thirds and each third will be randomly chosen from one of its parents.  You can see how the pattern continues.
+
+First we will try 1 Crossover Point:  Since we have removed our randomization factors, we see an improvement hit with an avg. fitness of *0.47* and standard deviation of **0.17.  **However, if you look closely, you can see the subtle effects of crossover at work.  In iterations 4-10, you can see that the final point is a child of a point that is near it, but performs slightly worse.  This is what we are after! (Excuse the typo in the animation label)
+
+http://www.nooganeer.com/his/wp-content/uploads/2015/03/GA7.gif[image:http://www.nooganeer.com/his/wp-content/uploads/2015/03/GA7.gif[GA7,width=800,height=600]]
+
+ 
+
+So what happens when we increase the crossover points to 5?  We get similar, but slightly worse performance with an avg. fitness of **0.42 **and a standard deviation of **0.18**.  Looking at the figure below, we can see why.  Any new points that are created are done so a little more randomly than before.  This is because the shape of our input.  Remember it is a 16-bit string where 8 bits represent X and the other 8 represent Y.  By splitting this down the middle we can combine a good X with a good Y.  Splitting it at 5 points doesn't really have much meaning for our problem domain.
+
+http://www.nooganeer.com/his/wp-content/uploads/2015/03/GA8.gif[image:http://www.nooganeer.com/his/wp-content/uploads/2015/03/GA8.gif[GA8,width=800,height=600]]
+
+In summary, the selection of Crossover Points can be very domain-specific.  You don't have to treat it this way, but if you have some knowledge about your domain, this is a good place to use it.
+
+[[finally-a-good-solution]]
+Finally, a good solution!
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Now we will combine all of our knowledge to make a GA that performs extremely well on this problem.  My choice for the tuned parameters can be seen below.  These yielded an average fitness 0f **0.90 **with a standard deviation of **0.1.**
+
+http://www.nooganeer.com/his/wp-content/uploads/2015/03/GA10.gif[image:http://www.nooganeer.com/his/wp-content/uploads/2015/03/GA10.gif[GA10,width=800,height=600]]
+
+ 
+
+[[what-have-we-learned]]
+What have we learned?
+^^^^^^^^^^^^^^^^^^^^^
+
+The GA is a very powerful (and neat!) optimization algorithm.  The problem shown has over 65,000 possible solutions, and the GA was able to find very close to the optimum in less than 500 attempts.  It did this by relying on a combination of randomization and keeping/combining strong candidates.

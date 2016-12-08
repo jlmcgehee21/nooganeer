@@ -1,0 +1,46 @@
+= Make Your Sonos Speak To You!
+:published_at: 2014-12-27
+
+My primary focus has been my http://www.nooganeer.com/his/projects/homeautomation/raspberry-pi-thermostat-part-1-overview/[Raspberry Pi Thermostat], but since I received a Sonos Play:1 for Christmas, I thought I would see what I could do with it.  To my delight it is extremely hackable!
+
+Since I am happy with the music playing capabilities of the Sonos system, I decided that it would be awesome to try to integrate it with my home automation plans!  The first step here seemed to be to make the Sonos speak text.
+
+I Googled around and found an excellent project called https://github.com/SoCo/SoCo[SoCo].  I decided to write a plugin rather than create a separate project. The main use of this plugin is to make your Sonos system speak text. It works by sending a request to the Google Text To Speech service, downloading a MP3 from the service, then playing the MP3 on the desired Sonos players. It will pause and resume playback properly if you are listening to music at the time the message is sent.
+
+I am waiting for my pull request to be accepted into the main project. Who knows how long it will take to get it right, since I'm an amateur compared to the folks in charge of it. So in the meantime, you can get my fork from here: https://github.com/jlmcgehee21/SoCo
+
+Download/clone the repo, activate your virtualenv if you so choose, then:
+
+....
+$ cd /Path/to/SoCo$ python setup.py install
+....
+
+[[setup]]
+Setup:
+~~~~~~
+
+In order for your Sonos to speak the MP3 file, you must add the location where you will save the MP3 file to your Sonos music library.  I created a directory in my home directory called "SoCoAudioMessages".  Put an MP3 in here called "SoCoExample.mp3". Now add this directory to your Sonos music library per the instructions here:
+
+https://sonos.custhelp.com/app/answers/detail/a_id/261/~/sharing-your-music-with-sonos
+
+Now, you must run this short script to determine the URI location that Sonos will require to play a MP3 file:
+
+....
+import soco#Replace with your speaker IP addresssonos = soco.SoCo("192.168.1.22")print(sonos.get_music_library_information('tracks',search_term='SoCoExample')[0].uri)
+....
+
+which will yield something like:
+
+....
+x-file-cifs://MACBOOKPRO-5A98/SoCoAudioMessages/SoCoExample.mp3
+....
+
+[[usage]]
+Usage:
+~~~~~~
+
+Use the directory you created to save you MP3 files, and the first part of the URI generated from the previous script. Run the script below and startle your family!
+
+....
+import soco.plugins.talk as talkimport socomp3Path = '/Users/Jeff/SoCoAudioMessages/talkOutput.mp3'uri = 'x-file-cifs://MACBOOKPRO-5A98/SoCoAudioMessages/talkOutput.mp3'talker = talk.TalkerPlugin(soco,mp3Path,uri)talker.talk('Warning. Warning. This is not a drill',volume=75)
+....

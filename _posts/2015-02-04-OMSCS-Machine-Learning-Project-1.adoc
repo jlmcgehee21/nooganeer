@@ -1,0 +1,16 @@
+= OMSCS Machine Learning Project 1
+:published_at: 2015-02-04
+
+http://www.nooganeer.com/his/wp-content/uploads/2015/02/jmcgehee3-analysis.pdf[image:http://www.nooganeer.com/his/wp-content/uploads/2015/02/Screen-Shot-2015-02-04-at-1.59.09-PM.png[Screen Shot 2015-02-04 at 1.59.09 PM,width=1064,height=554]]
+
+I haven't had much time lately to work on my http://www.nooganeer.com/his/projects/homeautomation/raspberry-pi-thermostat-part-1-overview/[Raspberry Pi Thermostat] because I have been focusing on my Masters in Computer Science through Georgia Tech's http://www.omscs.gatech.edu/#[OMSCS].
+
+Below is my first project to come out of this awesome program.  It is for CSC 7641: Machine Learning.
+
+http://www.nooganeer.com/his/wp-content/uploads/2015/02/jmcgehee3-analysis.pdf[Analysis Report]
+
+https://bitbucket.org/jeff_mcgehee/project1ml[BitBucket Repo]
+
+ 
+
+ 

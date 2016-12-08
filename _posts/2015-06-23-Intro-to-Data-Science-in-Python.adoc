@@ -1,0 +1,14 @@
+= Intro to Data Science in Python
+:published_at: 2015-06-23
+
+http://nbviewer.ipython.org/urls/bitbucket.org/jeff_mcgehee/cds_presentation_intro/raw/49cc7808ec26adebec94ffa83973bb5db13017d7/CDS%20Intro%20Presentation.ipynb[image:http://www.nooganeer.com/his/wp-content/uploads/2015/06/Screen-Shot-2015-06-23-at-9.55.18-PM.png[Screen Shot 2015-06-23 at 9.55.18 PM,width=964,height=646]]
+
+This is a short tutorial I built to present at a Chattanooga Data Science meetup. I have since presented at Chattanooga Developer's Lunch, and Chattanooga Python Users Group. My main goal here, rather than to do a in-depth analysis/prediction, is to showcase some of the awesome Python tools available for data science.
+
+I am looking at a small, but interesting dataset regarding fatal car accidents, their causes, and a couple of auto insurance metrics by U.S. state. This dataset comes from http://fivethirtyeight.com/[FiveThirtyEight], a popular statistics blog. You can download it from https://github.com/fivethirtyeight/data/tree/master/bad-drivers[FiveThirtyEight's Github], or you can download this entire iPython Notebook with all the necessary data files from my https://bitbucket.org/jeff_mcgehee/cds_presentation_intro[Bitbucket repo].
+
+I did this short exercise on my own without examining the FiveThirtyEight article in order to eliminate any influence if might have on how I decided to look through/at the data. You can check out the http://fivethirtyeight.com/datalab/which-state-has-the-worst-drivers/["Dear Mona" post at FiveThirtyEight].
+
+http://nbviewer.ipython.org/urls/bitbucket.org/jeff_mcgehee/cds_presentation_intro/raw/49cc7808ec26adebec94ffa83973bb5db13017d7/CDS%20Intro%20Presentation.ipynb[iPython Notebook in nbviewer]
+
+

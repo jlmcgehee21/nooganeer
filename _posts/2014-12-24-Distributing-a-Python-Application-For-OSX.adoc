@@ -1,0 +1,68 @@
+= Distributing a Python Application For OSX
+:published_at: 2014-12-24
+
+https://bitbucket.org/jeff_mcgehee/python-install-scripts[image:http://www.nooganeer.com/his/wp-content/uploads/2014/12/PythonOSXDistribution.png[PythonOSXDistribution,width=1396,height=1050]]
+
+The main focus of my job is scientific computing.  Python is an excellent environment for this, but once I have some code that works as well as I like, it's nice to be able to share it with co-workers, or just set it up to run independently on my machine.  A link to the Bitbucket repo is at the bottom of the article. Please clone/fork the repo and follow along. The source has only been tested on OSX, but should work in Linux with a little modification. I may make a Linux version in the future.
+
+*DISCLAIMER: I DO NOT PACKAGE CODE FOR MASS DISTRIBUTION PROFESSIONALLY.  THE METHOD I WILL PRESENT HERE IS WHAT I USE TO DISTRIBUTE A SMALL NUMBER OF COPIES OF MY CODE TO NON-PYTHON USERS WHO I TRUST, AND WHO ALSO TRUST ME.  THERE IS PROBABLY A MORE SECURE/RELIABLE METHOD, BUT THIS IS QUICK, EASY, AND WORKS IN MY SITUATION.*
+
+I have had only mediocre success with tools like http://pythonhosted.org//py2app/[py2app]. Therefore, I developed a method using shell scripts and virtualenv that allows for a python "application" to easily be installed in OSX.
+
+To begin, I am assuming that you have knowledge about why virtualenv is the proper way to develop in python.  If not, please read here: http://www.dabapps.com/blog/introduction-to-pip-and-virtualenv-python/
+
+Now, let's assume you already have a nice simple module called "MyApp.py". Go ahead and make a project directory "MyAppDist". Following the example in the repo, the final structure of your project will be like so:
+
+``
+
+MyAppDist/
+
+---------requirements.txt(pip requirements file)
+
+---------install.sh
+
+---------virtualEnvSetup.sh
+
+---------setIcon.sh
+
+---------bin/
+
+------------MyApp(shell script)
+
+------------MyApp.py(your source)
+
+---------media/
+
+------------MyLogo.png(logo of your choice)
+
+[[overview-usage]]
+Overview & Usage
+~~~~~~~~~~~~~~~~
+
+`install.sh` manages the other scripts in the main project directory. It installs an "application bundle" containing a virtualenv with the packages listed in `requirements.txt` and an executable shell script that activates the packaged virtualenv and runs the python source. `install.sh` also makes a fancy logo for your launcher and gives the user an option to make a desktop shortcut.
+
+So. All you need to do to distribute your python application is share your "MyAppDist" directory. The user will then run `$ bash install.sh`, and the app will be install in the `pwd`.
+
+The final app structure will be as follows:
+
+``
+
+MyApp/
+
+---------bin/
+
+------------MyApp(shell script)
+
+------------MyApp.py(your source)
+
+---------ProjectEnv/
+
+------------...
+
+To launch the application, simply run MyApp (Double Click, Spotlight, Alfred, etc.)!
+
+*DOWNLOAD MY EXAMPLE AND LET ME KNOW IF IT WORKS FOR YOU! IF YOU ARE HAVING TROUBLE, TRY LOOKING AT MY http://www.nooganeer.com/his/tipsandtricks/setting-up-osx-for-python-development/[GUIDE FOR SETTING UP OSX FOR PYTHON DEVELOPEMENT]*
+
+__ https://bitbucket.org/jeff_mcgehee/python-install-scripts[Bitbucket Repo]
+
+ 

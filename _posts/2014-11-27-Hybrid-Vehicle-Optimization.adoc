@@ -1,0 +1,18 @@
+= Hybrid Vehicle Optimization
+:published_at: 2014-11-27
+
+ 
+
+[caption id="attachment_33" align="aligncenter" width="640"]http://www.nooganeer.com/his/wp-content/uploads/2014/11/Research-Poster-2.001.png[image:http://www.nooganeer.com/his/wp-content/uploads/2014/11/Research-Poster-2.001-1024x768.png[Research Poster 2.001,width=640,height=480]] Research Poster[/caption]
+
+This project was the bulk of my research in graduate school.  Hybrid powertrain systems are highly optimizable, and with the rise of hybrid vehicles in the marketplace, I thought this was a very relevant topic.  I hope that researchers for the big automotive companies are implementing advanced optimization methods for production vehicles.
+
+This research won the award for Best Mechanical Engineering Graduate Research at the TTU Student Research Day 2013.  I also presented this research at the http://papers.sae.org/2013-01-0482/[SAE World Congress] in Detroit, and it was published in the http://www.nooganeer.com/his/wp-content/uploads/2014/11/Proceedings-of-the-Institution-of-Mechanical-Engineers-Part-D-Journal-of-Automobile-Engineering-2014-McGehee-0954407014548739.pdf[Proceedings of the Institution of Mechanical Engineers].  Below are links to the source code and other documents related to my research in this area.
+
+ 
+
+http://www.nooganeer.com/his/wp-content/uploads/2014/11/Thesis_Draft_Final_JM.pdf[Masters Thesis]
+
+https://bitbucket.org/jeff_mcgehee/hybrid-vehicle-ga-simulation[Source Code]
+
+ 

@@ -1,0 +1,28 @@
+= Read SMS from your Sonos
+:published_at: 2014-12-27
+
+In a http://www.nooganeer.com/his/projects/homeautomation/make-sonos-speak/[previous post], I showed you a plugin for the Python Sonos Controller called https://github.com/jlmcgehee21/SoCo[SoCo].  Now, I'll show one potential use case for it.  I'll build a simple Flask web application that integrates with https://www.twilio.com/[Twilio], and then tells your Sonos system to read any SMS messages received by your https://www.twilio.com/[Twilio] number.
+
+To start, you must get a free trial account https://www.twilio.com/[Twilio].
+
+Once that is set up, make sure you have my custom version of https://github.com/jlmcgehee21/SoCo[SoCo] installed as I've shown you http://www.nooganeer.com/his/projects/homeautomation/make-sonos-speak/[before].  Or, if my pull request has been accepted, install the main https://github.com/SoCo/SoCo[SoCo project].
+
+Now, install the https://github.com/twilio/twilio-python[Python Twilio] project, and Flask:
+
+....
+$ pip install twilio$ pip install flask
+....
+
+Now, create the following simple flask app:
+
+....
+from flask import *import soco.plugins.talk as talkimport socoapp = Flask(__name__)@app.route('/')def mainPage():    return 'Server up. Waiting on messages...'@app.route('/message', methods=['Post'])def messageRcvd():    mp3Path = '/Users/Jeff/SoCoAudioMessages/talkOutput.mp3'    uri = 'x-file-cifs://MACBOOKPRO-5A98/SoCoAudioMessages/talkOutput.mp3'    talkString = request.form['Body']    talker = talk.TalkerPlugin(soco, mp3Path, uri)    talker.talk(talkString, volume=75)    return '200'if __name__ == '__main__':    app.run("0.0.0.0",port=70, debug=True)
+....
+
+Once you have the script set up, you will need to set up port forwarding on your router (on port 70 in the example above) for the machine that will be running the script.  You must tell your Twilio number to send a POST request to your Flask server.  To do so, look up your external IP address or use your dynamic DNS address.
+
+Now, in your Twilio account, click on "configure your number" (red button in the upper left at the time of this post). Under the **Messaging **heading, type "http://YourDomainOrIP:PortNumber/message", and make sure you are sending an http POST request.
+
+Run the Flask app script, which will set up the development server, send a text to your Twilio number, and listen for it on your Sonos!
+
+*NOTE: THERE IS ZERO SECURITY BUILT INTO THIS EXAMPLE. USE IT AT YOUR OWN RISK.  THE POST REQUEST FROM TWILIO CONTAINS MUCH MORE USEFUL INFORMATION THAN THE MESSAGE BODY.  "REQUEST.FORM" IS A DICTIONARY THAT CONTAINS ALL OF THE MESSAGE INFO INCLUDING SENDER NUMBER, ETC.  *

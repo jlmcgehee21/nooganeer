@@ -1,0 +1,4 @@
+= Setting up MPI and MPI4Py for a computing cluster
+:published_at: 2014-11-28
+
+Make sure you set up your system path, etc.

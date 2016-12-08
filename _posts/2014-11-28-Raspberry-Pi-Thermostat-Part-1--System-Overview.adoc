@@ -1,0 +1,69 @@
+= Raspberry Pi Thermostat Part 1: System Overview
+:published_at: 2014-11-28
+
+http://jeff_mcgehee.bitbucket.org/ThermostatDemo/[image:http://www.nooganeer.com/his/wp-content/uploads/2014/11/ThermostatDemoFig1-1024x610.png[ThermostatDemoFig1,width=640,height=381]]
+
+*THIS IS AN OVERVIEW OF THE ENTIRE PROJECT.  AS I HAVE TIME I WILL RELEASE MORE IN-DEPTH TUTORIALS AND THE SOURCE CODE.  STAY TUNED!*
+
+http://www.nooganeer.com/his/category/projects/homeautomation/raspberry-pi-thermostat/[Check out my other Raspberry Pi Thermostat posts, including the source code!]
+
+Home automation has always been a fascination of mine.  How much time and irritation would I save if I didn't have to worry about turning things on and off, or wonder in which state they were left?  How much more efficient would my home be?  Wouldn't it be cool to always know the state of every power consumer in my home, and then be able to record and analyze that data as well?  With my brain nearly exploding with dreams of home automation, my wife and I bought our first home in May 2014.
+
+The starting point for my home automation system (which of course will be DIY and open source) is a thermostat.  I needed to control the biggest energy hog in my house first!  I had a  Raspberry Pi laying around that I had done some tinkering with, and after some Googling, I decided it would be the perfect brain for my project.
+
+I used http://makeatronics.blogspot.com/ and http://wyattwinters.com/rubustat-the-raspberry-pi-thermostat.html as a springboard to get started.
+
+[[why-am-i-doing-this]]
+Why Am I Doing This?
+--------------------
+
+Besides that I love automation and efficiency, I think this project could be a contributor to the "good" part of the Internet of Things revolution.  It is amazing how technology has brought us to the point that we are able to connect almost anything to the internet and access it from anywhere in the world.  In my eyes, one of the most valuable components of this technological advancement is the data.  Unfortunately, if you decide to purchase an IOT device, you may not be the owner of all/any of the data that device is generating.  There may be restrictions on how you can view/analyze the data, and it may be difficult or impossible to get to it in a raw form.
+
+So, I am making my own thermostat system because I want to own all of it.  The hardware, the data,  and the ability to change/customize it at my will.  I hope that others will be able to follow my plans to build their own system as well, and hopefully this can be a notable contribution to the open source IOT.
+
+[[broad-feature-overview]]
+Broad Feature Overview
+----------------------
+
+Fast forward a few weeks and I was up and running.  Now it was time for me to lay out the features I wanted:
+
+1.  Web Controllable - Flask
+2.  Database Driven - MySQL
+3.  Data Visualization/Analysis - Plot.ly Python API
+4.  Seven-Day Programmable
+5.  Smart Program (Tries to optimize for energy efficiency based on external temperature, etc.)
+6.  Temperature Sensors in Multiple Rooms -- Spark Core
+
+Currently, the system includes all of these features to some degree, with the exception of the "Smart Program" which will take quite a bit of time to get right
+
+ 
+
+[[system-overview]]
+System Overview
+---------------
+
+My favorite part about the system I have designed is that the thermostat itself is driven by a MySQL database that resides on a server on my local network--yes, this could fail, but if it does, the Raspberry Pi goes into a safe mode where it maintains 75 degrees if it is in 'cool' mode, and 65 degrees if it is in 'heat' mode--The fact that the Pi looks to the database for instruction means that, if the database is structured properly (I'll make a post about that), it will allow for complete modularity with respect to multiple temperature systems and control methods.  This can be seen in the simple diagram below.
+
+http://www.nooganeer.com/his/wp-content/uploads/2014/11/ThermostatOverview.png[image:http://www.nooganeer.com/his/wp-content/uploads/2014/11/ThermostatOverview.png[ThermostatOverview,width=463,height=437]]
+
+ 
+
+ 
+
+[[web-interface-overview]]
+Web Interface Overview
+----------------------
+
+I'm going to make a separate post about the web interface, so this will be fairly short.  To summarize, the web interface allows the user to adjust all of the parameters of the thermostat as well as do some simple data analysis as seen below.
+
+*IT'S BEEN POINTED OUT THAT THE DEMO SITE IS A BIT BUGGY.  THIS IS BECAUSE I AM NOT A WEB DEVELOPER. MY PROFESSIONAL CAREER IS FOCUSED ON SCIENTIFIC PROGRAMMING AND DATA SCIENCE.  I AM TRYING TO FIX THE PROBLEMS AS I AM AWARE OF THEM, BUT PLEASE FEEL FREE TO COMMENT AND LET ME KNOW, OR CONTACT ME DIRECTLY FROM THE "ABOUT" PAGE.*
+
+http://jeff_mcgehee.bitbucket.org/ThermostatDemo/[Static Demo Site]
+
+ 
+
+http://jeff_mcgehee.bitbucket.org/ThermostatDemo/[image:http://www.nooganeer.com/his/wp-content/uploads/2014/11/ThermostatDemoFig2-1024x724.png[ThermostatDemoFig2,width=640,height=452]]
+
+ 
+
+http://www.nooganeer.com/his/category/projects/homeautomation/raspberry-pi-thermostat/[Check out my other Raspberry Pi Thermostat posts, including the source code!]

@@ -1,0 +1,90 @@
+= Raspberry Pi Thermostat Part 2: Hardware Overview
+:published_at: 2014-12-06
+
+http://www.nooganeer.com/his/wp-content/uploads/2014/12/HardwareCover.png[image:http://www.nooganeer.com/his/wp-content/uploads/2014/12/HardwareCover.png[HardwareCover,width=1024,height=683]]
+
+ 
+
+THIS IS A LIVING POST ABOUT THE HARDWARE I AM USING FOR MY THERMOSTAT PROJECT.  THE HARDWARE LISTED HERE MAY CHANGE AS I IMPROVE MY SYSTEM.
+
+[[hardware-bom]]
+ Hardware "BOM"
+~~~~~~~~~~~~~~~
+
+* Raspberry Pi with 1000mA Power Supply and Wifi Dongle
++
+** All pure "thermostat" logic runs on the Pi
+* http://makeatronics.blogspot.com/2013/06/24v-ac-solid-state-relay-board.html[Makeatronics] Solid State Relay Board (More on this later)
++
+** Allows the Pi to switch the 24v AC signals for the HVAC system
+** I found that a 330Ω resistor behaves better in place of the 560Ω resistors.  Possibly because for my heatpump system, I sometimes have to drive all three circuits at once.
+* iPhone 4 and 3D printed wall dock (optional)
++
+** Mounts in place of the old thermostat to allow for "normal" interaction with the thermostat (for guests, etc.)
+* https://www.spark.io/[Spark Core Wifi enabled microcontroller] (optional)
++
+** Remote wireless sensors
+* DS18B20 One-Wire temperature sensor (at least one, but the more the better!)
++
+** Pair one with your Pi, and then one per Spark Core.
+** I got the enclosed waterproof type which was probably unnecessary
+* Web Server
++
+** I used an old computer to host the web app and MySQL database locally, but it should work just as well on a cloud server
+* http://www.amazon.com/Oatey-34056-14-Inch-Access-Panel/dp/B000DZD3MO/ref=sr_1_2?ie=UTF8&qid=1417893601&sr=8-2&keywords=drywall+access+panel[Wall Access Panel]
++
+** Due to my Mechanical Engineerness, my electronics hardware work should be hidden from the light of day.
+* Jumper wires, resistors, etc.
+
+[[removing-the-existing-thermostat-and-hooking-up-the-raspberry-pi]]
+Removing the existing thermostat and hooking up the Raspberry Pi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+It was important for the health of my marriage that this project--A: Did not look unsightly or clash with the decor which has been carefully selected by my wife B: Was easily "reversible" back to the regular thermostat during development or failure.
+
+So I left the wall mount for the regular thermostat in place.  The thermostat simply popped off the wall mount.  **Whether you leave the wall mount or not, note that it is very useful (assuming your old thermostat was hooked up correctly) for determining what all of the control wires actually do. **HVAC control wiring can be somewhat complicated, so do your research about this.  I will lay out how my wiring was set up for my heat pump system, but it is highly likely that yours will be different.  There are many different types of HVAC systems, and a few different wire color schemes.  A photo of my wiring (with the Raspberry Pi wiring already in place) is below.
+
+http://www.nooganeer.com/his/wp-content/uploads/2014/12/ThermostatWiring.png[image:http://www.nooganeer.com/his/wp-content/uploads/2014/12/ThermostatWiring.png[ThermostatWiring,width=835,height=557]]
+
+On every system, there should be a hot 24v wire (probably red) that you will be switching to actuate the various modes of your system.  I used my multimeter to ensure I had found this wire, then I used a jumper wire to connect it to the various signal wires and confirm their function.  **USE YOUR BEST JUDGEMENT IF YOU DECIDE TO MANUALLY SWITCH YOUR HVAC SYSTEM WITH A JUMPER WIRE.  YOU SHOULD KNOW IF THIS IS SOMETHING YOU ARE CAPABLE OF DOING SAFELY.  I AM NOT LIABLE FOR ANY DAMAGE YOU MAY CAUSE TO YOUR SYSTEM OR YOURSELF.**
+
+On my heat pump system, the wiring worked as follows:
+
+* Red -- 24v Supply
+* Yellow -- Compressor Control
+* Blue -- Common
+* Orange -- Reversing Valve Control
+* Green -- Fan Control
+* White -- Aux/Emergency Heat Control
+
+To activate the various modes, the wire states are as follows:
+
+* Fan Only -- Green 24v
+* Cooling -- Green, Orange, Yellow 24v
+* Heating (Compressor Only) -- Green, Yellow 24v
+* Heating (Aux Only) -- Green, White 24v
+* Heating (Aux and Compressor) -- Green, Yellow, White 24v
+
+*For my system, the Makeatronics board did not have enough relay circuits.  I needed an extra one for Aux/Emergency heat, so I wired it up separately on a bread board.*
+
+After figuring out how the HVAC system is controlled, I was ready to wire up the Pi.  There are two parts to this: the relays, and the temperature sensor.  I wired up the temperature sensor following the tutorial on https://learn.adafruit.com/adafruits-raspberry-pi-lesson-11-ds18b20-temperature-sensing/[Adafruit].  **Before wiring up the relay board, switch off the breaker for your HVAC system.  **Wiring the relay board is pretty straightforward.  There are instructions on the http://makeatronics.blogspot.com/2013/06/24v-ac-solid-state-relay-board.html[Makeatronics] blog.  Just make sure to remember what pins on the pi control what wires on your HVAC system.
+
+Next I installed the access panel on the opposite side of the wall where the thermostat was mounted.  I also ran some wiring for an electric receptacle to mount in between the walls to power the Pi (I'm not sure if this follows electrical code, so do this at your own risk) .  I then mounted the Raspberry Pi, relay board, and a breadboard to the backside of the access panel and ran the temperature sensor through the other side of the wall (you can see it in the previous photo).
+
+[caption id="attachment_141" align="alignnone" width="1024"]http://www.nooganeer.com/his/wp-content/uploads/2014/12/AccessPanelHardware.png[image:http://www.nooganeer.com/his/wp-content/uploads/2014/12/AccessPanelHardware.png[AccessPanelHardware,width=1024,height=683]] Wiring: Don't judge me. I'll make it look nice one day...[/caption]
+
+[caption id="attachment_143" align="alignnone" width="888"]http://www.nooganeer.com/his/wp-content/uploads/2014/12/AccessPanel.png[image:http://www.nooganeer.com/his/wp-content/uploads/2014/12/AccessPanel.png[AccessPanel,width=888,height=591]] Cleans up nicely though![/caption]
+
+The next step was to cover up the old thermostat mount and dangling temperature sensor. To do this, I designed a custom wall mount for my old iPhone 4 that uses the same mounting points as the old thermostat.  I 3D printed it on our MakerBot at work, brought it home, and put it all into place!
+
+[caption id="attachment_144" align="alignnone" width="769"]http://www.nooganeer.com/his/wp-content/uploads/2014/12/iPhoneMount.png[image:http://www.nooganeer.com/his/wp-content/uploads/2014/12/iPhoneMount.png[My walls aren't actually purple.,width=769,height=513]] My walls aren't actually purple.[/caption]
+
+ 
+
+[[setting-up-the-spark-core]]
+Setting up the Spark Core
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+I am intending to build multiple sensor "modules" using a Spark Core as the brains.  My goal is to have temperature, humidity, light, and motion sensors all built into a wireless package.  For now, I only have one Spark Core, and it is only measuring temperature.
+
+The only hardware configuration that is required to measure temperature on the Spark Core is to wire the DS18B20 to one of the digital I/O pins on the Spark.  I did this identical to the way I wired up the sensor on the Pi.

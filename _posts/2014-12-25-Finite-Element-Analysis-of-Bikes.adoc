@@ -1,0 +1,72 @@
+= Finite Element Analysis of Bikes
+:published_at: 2014-12-25
+
+This project was done as a demonstration for students I taught in ME4020 Applied Machine Design. I used the http://en.wikipedia.org/wiki/Finite_element_method[finite element method] to demonstrate some fundamentals of bicycle design.  All of the deflections are exaggerated for visual effect.
+
+[[bike-frame-loading]]
+Bike Frame Loading
+~~~~~~~~~~~~~~~~~~
+
+The following two animations show a bike frame subjected to loading that simulates a climb/sprint, and a vertical seatpost load, respectively.
+
+The deflection of the frame during a climb/sprint is lost energy for the cyclist.  The model shown here is a rather traditional steel frame.  Modern frames use much larger diameter tubing and/or much more "beef" around the bottom bracket to combat this.
+
+[caption id="attachment_184" align="aligncenter" width="384"]http://www.nooganeer.com/his/wp-content/uploads/2014/12/Bike-Frame-SprintClimb-549b073d0a363.gif[image:http://www.nooganeer.com/his/wp-content/uploads/2014/12/Bike-Frame-SprintClimb-549b073d0a363.gif[Bike-Frame-SprintClimb-549b073d0a363,width=384,height=288]] Sprint/Climb Loading[/caption]
+
+The vertical seatpost loading shows how the bike behaves when experiencing road irregularities.  In general, the more the frame deflects (without failing), the more road vibrations are absorbed by the frame. Casual riders will often rate a frame based on how "smooth" it rides, but often don't realize that a smooth riding frame is also relatively inefficient for power transfer as shown in the sprint/climb simulation.
+
+[caption id="attachment_183" align="aligncenter" width="384"]http://www.nooganeer.com/his/wp-content/uploads/2014/12/Bike-Frame-Seat-Post-Loading-549b064c6f15d.gif[image:http://www.nooganeer.com/his/wp-content/uploads/2014/12/Bike-Frame-Seat-Post-Loading-549b064c6f15d.gif[Bike-Frame-Seat-Post-Loading-549b064c6f15d,width=384,height=288]] Vertical Seatpost Loading[/caption]
+
+So, with these fairly simple animations, hopefully I have shown you how difficult it could be to design a modern-day top of the line bike frame.  This really shows why so many wild geometries exist in frames today.  Some riders simply want comfort, others simply want performance, but the majority probably want something that delivers both.  Therefore engineers must find geometries that are optimized for ideal behavior in both of the above simulations.
+
+ 
+
+[[wheel-spoke-pattern-analysis]]
+Wheel Spoke Pattern Analysis
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Another big part of bike performance is the wheel set.  Lighter, more aerodynamic wheels will have a large impact on performance.  The rims are the probably biggest player in this, but the spokes often get overlooked.  However, unless you have a trendy Aerospoke, or an actual high performance trispoke wheel, the spokes and their arrangement are playing a large role in the performance of your wheels.
+
+[[cross-lacing-vs-radial-lacing]]
+3 Cross Lacing vs Radial Lacing
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The two spoke lacing patterns that will be tested are the "3 Cross" and "Radial" patterns.  The 3 Cross method gets its name because each spoke crosses 3 other spokes from the hub to the rim.  The Radial pattern simply aligns each spoke with the center of the hub (like a radius), none of them cross.   For this test, I am creating both wheels with the same number of spokes, although often Radial Laced wheels have less spokes.
+
+To examine how a spoke pattern performs, we must first understand the types of loading a wheel will experience.  These loadings are:
+
+* Radial compression--Static weight bearing, potholes, bumps, etc.
+* Eccentric compression (not sure if this is the correct/proper term)--Compression on the rim which has a vector that is not in line with the plane of the wheel.  Think tilting the bike while sprinting/climbing.
+* Torque--When the rider accelerates, all of the torque must be transferred from the rear cassette on the hub to the ground.  This is experienced by the rear wheel, but not the front.  However, disc brakes will apply a torque load on whichever wheel they are installed.
+
+For this demonstration, I am not considering eccentric compression, because with the way that I built my two wheel models, the results from a radial loading test will tell us the same story as the eccentric compression loading would.  However, if you want to see how bike engineers are combating the eccentric loading, check out this excellent video: https://www.youtube.com/watch?v=22B579FrfjQ
+
+[[radial-loading-test]]
+Radial Loading Test
+^^^^^^^^^^^^^^^^^^^
+
+On the radial loading test, the Radial Laced wheel is slightly stiffer than the 3 Cross Laced wheel.  However, it does experience slightly higher stress on the hub flange.
+
+[caption id="attachment_186" align="aligncenter" width="384"]http://www.nooganeer.com/his/wp-content/uploads/2014/12/3CrossPothole.gif[image:http://www.nooganeer.com/his/wp-content/uploads/2014/12/3CrossPothole.gif[3CrossPothole,width=384,height=288]] Radial Loading: 3 Cross Lacing[/caption]
+
+[caption id="attachment_189" align="aligncenter" width="384"]http://www.nooganeer.com/his/wp-content/uploads/2014/12/RadialPothole.gif[image:http://www.nooganeer.com/his/wp-content/uploads/2014/12/RadialPothole.gif[RadialPothole,width=384,height=288]] Radial Loading: Radial Lacing[/caption]
+
+ 
+
+So a Radial Laced wheel performs slightly better in terms of rim deflection than a 3 Cross Laced wheel. Considering this, the fact that they are faster and easier to lace, the spoke length can be shorter (saving weight), and most people think they look cool, a Radial Laced wheel is a nice choice for a wheel that will experience radial loads.
+
+[[torque-loading-test]]
+Torque Loading Test
+^^^^^^^^^^^^^^^^^^^
+
+Though these animations are a little difficult to interpret, it can be seen that the 3 Cross Pattern drastically outperforms the Radial Pattern under a torque load.  What you are seeing on the Radial Pattern simulation is essentially the spokes wrapping around the hub, and the hub flange probably failing as well.
+
+[caption id="attachment_188" align="aligncenter" width="384"]http://www.nooganeer.com/his/wp-content/uploads/2014/12/3CrossTorque.gif[image:http://www.nooganeer.com/his/wp-content/uploads/2014/12/3CrossTorque.gif[3CrossTorque,width=384,height=288]] Torque Loading: 3 Cross Lacing[/caption]
+
+ 
+
+[caption id="attachment_190" align="aligncenter" width="384"]http://www.nooganeer.com/his/wp-content/uploads/2014/12/RadialTorque.gif[image:http://www.nooganeer.com/his/wp-content/uploads/2014/12/RadialTorque.gif[RadialTorque,width=384,height=288]] Torque Loading: Radial Lacing[/caption]
+
+So the 3 Cross Laced wheel is the ideal choice for a rear wheel. It can effectively transfer the rider's torque to the ground, which is a very important task.  The Radial Laced wheel would completely fail you as a rear wheel or on a bike with disc brakes.  However, if you have a typical road bike with rim brakes, it is a nice choice for a front wheel.
+
+ 

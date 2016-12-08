@@ -1,0 +1,34 @@
+= Chattanooga Data Science Logo
+:published_at: 2015-06-13
+
+http://www.chattanoogadatascience.com[image:http://www.nooganeer.com/his/wp-content/uploads/2015/06/logo_output.png[logo_output,width=8000,height=3000]] Recently, I found a small group of data scientists attempting to form a community in Chattanooga. Since I'm looking to move my career in this direction, I thought it was a pretty good opportunity to make some connections and learn/share some skills.
+
+The woman who put the group together was nice enough to build us a http://www.chattanoogadatascience.com[website], but the "Chattanooga Data Science Group" was missing a logo. So I set out to fix that problem. I decided that it would be neat to make some sort of interesting scatter plot on top of a simple image. Initially, I wanted to use a line drawing of Chattanooga, but finding an image like this proved to be pretty difficult, so I settled on text.
+
+Below is a short iPython Notebook that I made to do it.
+
+First, these are the packages you must import.
+
+....
+import matplotlib.pyplot as pltimport numpy as npfrom scipy.spatial.distance import cdist%matplotlib inline
+....
+
+Next I created a class to handle the image operations: * Import image * Translate black pixels in image to x-y coordinates * Choose a random number of these x-y coordinates to used for the scatter plot points
+
+....
+class LogoImage(object):    def __init__(self, img_path):        self.orig_array = plt.imread(img_path)        self.raw_array = self.orig_array[:,:,1]        self.bw_mask = self.raw_array < 0.4        self.bw_array = 1*self.bw_mask.astype(int)        self.xy = self._get_xy()        self.thinned_xy = self._thin_xy()    def _get_xy(self):        full_array = np.asarray([range(self.bw_array.shape[1])]*(self.bw_array.shape[0]))        scatter_points = []        for x, y_vals in enumerate(full_array):            for y in y_vals:                if self.bw_array[x, y]:                    scatter_points.append((y,x))        return np.asarray(scatter_points)    def _thin_xy(self):        indeces = np.random.choice(np.arange(self.xy.shape[0]), self.xy.shape[0]/500, replace=False)        thinned_vals = self.xy[np.sort(indeces),:]        return thinned_vals
+....
+
+Build a simple "string cluster" function to connect points near to each other (just makes it look cool)
+
+....
+def grow_clusters(current_inds, distance_mat):    acceptable_inds = filter(lambda x: x not in current_inds, range(distance_mat.shape[1]))    sorted_inds = np.argsort(distance_mat[current_inds[-1], :])    current_inds.append([ind for ind in sorted_inds if ind in acceptable_inds][0])    return  current_inds
+....
+
+Create a new image object, use clustering algorithm to build connections between points, then plot it all.
+
+....
+orig_img = LogoImage('/Users/Jeff/Desktop/Screen Shot 2015-06-13 at 3.34.24 PM.png')cluster_starts = np.random.randint(0, orig_img.thinned_xy.shape[0], 15)cluster_starts = [[ind] for ind in cluster_starts]distance_mat = cdist(orig_img.thinned_xy, orig_img.thinned_xy)while sum([len(inds) for inds in cluster_starts]) < orig_img.thinned_xy.shape[0]*2:    cluster_starts = map(lambda x: grow_clusters(x, distance_mat), cluster_starts)fig = plt.figure()fig.set_size_inches(8, 3)ax = fig.add_subplot(111)ax.imshow(orig_img.bw_array, cmap='binary', alpha=1)ax.scatter(orig_img.thinned_xy[:,0], orig_img.thinned_xy[:,1], s=np.random.randint(2, 10, orig_img.thinned_xy.shape[0]), c='#51e7ff', lw=0)for cluster_inds in cluster_starts:    ax.plot(orig_img.thinned_xy[cluster_inds, 0], orig_img.thinned_xy[cluster_inds, 1], c='#51e7ff', lw=0.5)ax.set_axis_off()
+....
+
+image:http://www.nooganeer.com/his/wp-content/uploads/2015/06/output_7_0.png[png]

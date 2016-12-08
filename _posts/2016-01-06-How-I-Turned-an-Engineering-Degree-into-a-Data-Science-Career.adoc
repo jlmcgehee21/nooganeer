@@ -1,0 +1,36 @@
+= How I Turned an Engineering Degree into a Data Science Career
+:published_at: 2016-01-06
+
+[[tldr]]
+tl;dr
+-----
+
+* Develop or be born with an insatiable desire to solve problems
+* Learn math
+* Learn to write code that does math
+* Learn how to write code that visualizes math
+* Learn how to make machines learn
+* Convince employers that you're not an engineer (but still be an engineer)
+* Keep learning how to do these^ better
+
+[[desire-to-solve-problems]]
+Desire to Solve Problems
+------------------------
+
+This is the single most important factor in the choice of my career path.  This is something that I think I was born with, and that really grew as I began to learn new tools to help me solve harder problems.  This is what keeps me up until 3am in my home office or workshop on a weeknight as a perfect a project or obsessively try to learn a new skill.  If this does not remind you of yourself (even a little bit), and you are reading this article with the hopes of changing your career path to data science, you may want to reconsider.
+
+[[problem-solving-with-math-and-code]]
+Problem Solving with Math and Code
+----------------------------------
+
+As an engineer (mechanical), I got my fair share of math education.  After it was beaten into my head in its most raw form, my engineering professors began to show me how I could use all of this math to solve interesting real world problems (Will this bearing fail?  Will this gear spin too fast?  Will the robot end up where I want it to?).  However, I quickly realized that almost all the engineering problems that could be solved with pen and paper had already been solved.
+
+Luckily, I had a great professor (that ended up being my graduate advisor) who taught Dynamic Modeling and Control.  This is where my fellow students and I learned that if you could derive equations that describe your system, you can write code that will simulate its behavior.  To me, this was a huge revelation (not much coding goes on the ME curriculum), and I quickly realized that all of the exciting engineering problems of the future would be solved with code.  I immersed myself in topics like Optimization, Robotics, Finite Element Analysis, and Combustion Engine Modeling.  I learned that with rich computational models, I could optimize a system before a single dollar was spent on a prototype.  I realized code that does math, might be the most powerful tool of the future.
+
+[[starting-my-career]]
+Starting My Career
+------------------
+
+I finished my MS in Mechanical Engineering from Tennessee Tech University in May, 2013.  My focus was on simulation-based control design.  I had spent the latter years of my undergrad and my two years in grad school learning how to write code that does math, and I loved every day of it.  Unfortunately, not many employers associate this skill with an engineering degree, particularly mechanical engineering.  I was disappointed interview after interview when prospective employers told me things like "The most exciting thing we see on your resume is that you built roof trusses in a factory as a teenager.", or "Umm.  We don't do much optimization."  I was terrified that my degree title would keep me from doing what I loved.
+
+Then I found a local startup looking to hire a mechanical engineer.  The main skill they were looking for was mechanical CAD, but they manufactured handheld sensors and wrote mobile apps to interact with them.  I thought that this might be the only place I would have a chance to do something other than the mechanical engineering stereotype, so when I got an offer, I took it.  Even though it was well below market rate.

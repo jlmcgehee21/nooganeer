@@ -1,0 +1,37 @@
+= Diet Optimizer -- How it works
+:published_at: 2015-08-25
+
+http://www.nooganeer.com/his/projects/diet-optimizer/[image:http://www.nooganeer.com/his/wp-content/uploads/2015/08/Screen-Shot-2015-08-25-at-9.28.03-AM.png[Screen Shot 2015-08-25 at 9.28.03 AM,width=507,height=361]]
+
+At the August 2015 Chattanooga Data Science meeting, the group discussed ways to provide "good" combinations of foods to a user who first provides their diet goals.  The source of the foods would be the USDA Nutrition Database which, after some scrubbing, contained *`7,502`* foods.
+
+The first step was to build a new data set which contained a more rigorous definition of "food".  The "foods" that are present in an *optimal combination* of foods, should contain an amount (which was not present in the original dataset).  For this, I decided to portion the foods into each of the following amounts. **`[50g, 100g, 150g, 200g]`**.
+
+Doing some simple math, we can see that our dataset grows by a factor of 4 to *`30,008`* foods.  Now, to keep things (relatively) under control, we limit the food combinations to having a total of 5 foods.  Now, we have *`30008^5 = 2.4332417e+22`* possible combinations of foods!
+
+How will we ever find good foods? Well first, we must define a https://en.wikipedia.org/wiki/Loss_function[cost/objective/loss function], which gives us a way to tell if a combination is "good".  Then, we pick combinations that have the most desirable cost as computed by the cost function.
+
+So... Let's calculate the cost for each combination, then pick the best ones! Computers can do math fast, right?  Well, if you went that route, and it took the computer *`.001`* seconds to evaluate each combination, you would be waiting **`771575890557`** YEARS on an answer.
+
+[[machine-learning-to-the-rescue]]
+Machine Learning to the Rescue!
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This problem is a https://en.wikipedia.org/wiki/Combinatorial_optimization[combinatorial optimization] problem.  In general, they are considered to be very hard (many have been proven to be https://en.wikipedia.org/wiki/NP-complete[NP-Complete]).  However, we have two things going for us!
+
+1.  We are not really searching for an **absolute optimum** combination. The end user would probably be happy to receive a group of results that were deemed "pretty close" to absolutely optimal.
+2.  Machine Learning
+
+In particular, there is a subset of machine learning algorithms for optimization.  From them, I chose to use https://en.wikipedia.org/wiki/Hill_climbing[Random Hill Climbing], https://en.wikipedia.org/wiki/Simulated_annealing[Simulated Annealing] and https://en.wikipedia.org/wiki/Genetic_algorithm[Genetic Algorithms].  There are other algorithms in this group, but I chose these because I already have code written for them, and this was a small side-project.
+
+So, when you use the http://www.nooganeer.com/his/projects/diet-optimizer/[Diet Optimizer] tool, you kick off the optimization process for **your personal cost function.  ** This should help you see how powerful these algorithms can be!  **Within 20 seconds, machine learning can find good diet options out of `2.4332417e+22` combinations!  **There is no storage of information about good combinations found previously, or anything of that sort.
+
+[[caveats]]
+Caveats
++++++++
+
+1.  This was a small side project, so I didn't take the time to optimize the code.  It's highly possible that you could get equal results much faster, if you took the time to optimize for speed.
+2.  When the user selects "favorite foods"  it is limiting one of the food options to only contain items which have the respective food name in the description.  This reduces the problem, but often not by much.  It also does not change the structure of the problem.  The problem is the same, just on a slightly smaller scale.
+3.  My cost function was purely based on conformance to the (calorie, carb%, protein%, fat%) tuple.  It would be neat to take into account other factors such as user preferences or local availability of ingredients.
+
+If you want to spend some time digging through the code, you can visit the  https://bitbucket.org/jeff_mcgehee/cds_usda_nutrition_data[Bitbucket repo].

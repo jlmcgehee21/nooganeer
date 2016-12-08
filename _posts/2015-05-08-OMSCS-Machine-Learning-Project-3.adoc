@@ -1,0 +1,14 @@
+= OMSCS Machine Learning Project 3
+:published_at: 2015-05-08
+
+http://www.nooganeer.com/his/wp-content/uploads/2015/05/Project3Report.pdf[image:http://www.nooganeer.com/his/wp-content/uploads/2015/05/Screen-Shot-2015-05-08-at-11.39.56-PM.png[Screen Shot 2015-05-08 at 11.39.56 PM,width=1368,height=1100]]
+
+Project 3 for OMSCS 7641 Machine Learning covered clustering and feature reduction algorithms. These included K-means and Expectation Maximization clustering, and Principal Component Analysis, Independent Component Analysis, Random Component Analysis, and Linear Discriminant Analysis.
+
+http://www.nooganeer.com/his/wp-content/uploads/2015/05/Project3Report.pdf[Download the paper]
+
+or
+
+https://bitbucket.org/jeff_mcgehee/project3ml/overview[Visit the BitBucket Repo]
+
+

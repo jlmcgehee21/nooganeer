@@ -1,0 +1,8 @@
+= 6DOF Robotic Arm Simulation
+:published_at: 2014-11-27
+
+6DOF Robotic arm simulation with inverse kinematics puzzle "solving" feature.  The 4 puzzle blocks are placed in random positions each time, and the robot calculates the inverse kinematics necessary to solve the puzzle.
+
+http://www.nooganeer.com/his/wp-content/uploads/2014/11/RoboticsReport.pdf[Kinematics Summary]
+
+https://bitbucket.org/jeff_mcgehee/robotic-arm-simulation/overview[Source Code]

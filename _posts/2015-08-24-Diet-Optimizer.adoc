@@ -1,0 +1,20 @@
+= Diet Optimizer
+:published_at: 2015-08-24
+
+http://www.nooganeer.com/his/wp-content/uploads/2015/08/Screen-Shot-2015-08-24-at-9.15.30-PM.png[image:http://www.nooganeer.com/his/wp-content/uploads/2015/08/Screen-Shot-2015-08-24-at-9.15.30-PM.png[Screen Shot 2015-08-24 at 9.15.30 PM,width=1852,height=1330]]
+
+For the August 2015 meeting of the Chattanooga Data Science group, we discussed a problem of finding a set of optimal foods for a few dietary goals.  Below is a small web app I made to do just that!
+
+This problem is a **Combinatorial Optimization** problem, and is not trivial.  Find out more about the details at the https://github.com/chatt-data-science/usda_nutrition_data[Chattanooga Data Science Github repo], or check out http://www.nooganeer.com/his/projects/diet-optimizer-how-it-works/[my post about how it works].
+
+[[instructions]]
+Instructions
+++++++++++++
+
+1.  Enter in your diet constraints, making your percentages add up to 100%.  If not, it will be hard for the algorithm to find answers that meet your (impossible) needs!
+2.  Enter foods you want to ensure show up in every solution.  You can enter multiple foods separated by a comma (i.e. "chicken,peanut").
+3.  Select your algorithm
+4.  Choose run time
+5.  Browse results.  The graph shows the "cost" of the top 50 results found by the algorithm.  The cost represents the difference between the chosen options and your constraints, so the lower the "cost", the better.
+6.  Compare algorithms to see how they perform.
+7.  Eat foods that were chosen for you with data science!

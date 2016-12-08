@@ -1,0 +1,16 @@
+= OMSCS Machine Learning Project 2
+:published_at: 2015-03-16
+
+http://www.nooganeer.com/his/wp-content/uploads/2015/03/jmcgehee3-analysis.pdf[image:http://www.nooganeer.com/his/wp-content/uploads/2015/03/Surface_SCatter_2.png[Surface_SCatter_2,width=2080,height=420]]
+
+The http://www.nooganeer.com/his/projects/homeautomation/raspberry-pi-thermostat-part-1-overview/[Raspberry Pi Thermostat] is still on hold due to OMSCS, but I do have some big restructuring plans for it.  Keep checking back to for updates on that front.
+
+In the mean time, below is my report for the randomized optimization assignment in OMSCS 7641 Machine Learning.  The algorithms covered are Random Hill Climbing, Simulated Annealing, Genetic Algorithms, and MIMIC.  As you may can see from the graphics, this was a pretty cool project.  I think it may inspire some future blog posts as well.
+
+http://www.nooganeer.com/his/wp-content/uploads/2015/03/jmcgehee3-analysis.pdf[image:http://www.nooganeer.com/his/wp-content/uploads/2015/03/images2.png[images2,width=1283,height=1083]]
+
+http://www.nooganeer.com/his/wp-content/uploads/2015/03/jmcgehee3-analysis.pdf[Project Report]
+
+https://bitbucket.org/jeff_mcgehee/project2ml[Bitbucket Repo]
+
+ 
